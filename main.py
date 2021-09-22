@@ -3,18 +3,18 @@ import numpy as np         #영상을 다루기 위해 배열 numpy
 import serial              #시리얼 통신을 위함
 import os                  #운영체제 제어를 위함
 from socket import*        #소켓통신을 위함
-from threading import*     #object detection과 통신을 위해 쓰레딩
+from threading import*     #서버와 영상처리를 동시 실행하기 위한 쓰레딩 
 
 
 PORT = 'COM7'                       #아두이노 포트
-host = "192.168.0.213"  # host ip #"192.168.0.213"
+host = "192.168.0.213"  # host ip #"192.168.0.213"   #접속마다 IP주소 확인하여 변경해주어야 함
 Port = 54321  # 시리얼 통신에 대한 초기설정
 SER = serial.Serial(PORT, 9600)
-cam_on_flag = 3
+cam_on_flag = 3                     #camera를 키고 끄기 위한 flag 
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind((host, Port))
 serverSocket.listen(1)
-print("wait")
+print("wait")                     #APP을 통한 접속을 기다리는 시퀀스
 (connectionSocket, addr) = serverSocket.accept()
 print(str(addr), "from connect.")  # connect check
 
@@ -33,7 +33,7 @@ def camfunc():
             cam_on_flag = int(res.decode()[:len(res) - 1])
             # if res.decode() == 0x35:
             #     cam_on_flag = 1
-        if cam_on_flag == 5:
+        if cam_on_flag == 5:                  #그레이 스케일 -> 이진화 -> 해당 픽셀 값에 따른 값을 Serial을 통해 아두이노로 전송시켜준다.
             ret, frame = cap.read()
             if not ret:
                 print("error!")
