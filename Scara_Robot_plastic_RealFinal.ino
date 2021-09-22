@@ -48,22 +48,22 @@ void loop ()
      //serial 받아오기
      serial_num = Serial.read();
         //스위치 값 받아오기
-     if(serial_num == 10)
+     if(serial_num == 10)    //serial_number flag에 따른 동작 구현을 위한 선택지 
      {
-        mode_select_flag = 1;
+        mode_select_flag = 1;    //1은 auto mode
      }
      else if(serial_num ==20)
      {
-        mode_select_flag = 2;
+        mode_select_flag = 2;    //2는 auto mode
      }
      switch (mode_select_flag)
      {
       case 1:
         AutoMode();
-        mode_select_flag=0;
+        mode_select_flag=0;   //Automode실행 후 다시 입력을 받기 위함
         break;
       case 2:
-        if(serial_num == 11)
+        if(serial_num == 11)  //각 해당하는 동작을 하기 위한 serial number
         {
           x_cw_run();
         }
