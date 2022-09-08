@@ -38,7 +38,8 @@ def camfunc():
             if not ret:
                 print("error!")
                 break
-            gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            dst = cv2.GaussianBlur(frame, (0, 0), 2)
+            gray_img = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)
             rat, edge_img = cv2.threshold(gray_img, 70, 255, cv2.THRESH_BINARY)
             cv2.imshow('src', edge_img)
             count_pixel = cv2.countNonZero(edge_img)
